@@ -1,0 +1,246 @@
+Oque é o Kubernetes:
+O Kubernetes é um orquestrador de código aberto para implantação de aplicações conteinerzadas.
+Desde de 2014, o Kubernetes evoluiu e se transformou em um dos maiores e mais pupolares projetos de código aberto de mundo.
+Tornou-se a API padrão para a construção de aplicações nativas de nuvem e esta presente em que tudo nuvem publica.
+O kubernetes oforece o software necessário para construção e implantação de sistemas destribuidos com confiança e escalável em grande sucesso.
+Motivos pelos quais as pessoas passam a usar conteiners e APIs de conteiners como o Kubernetes, mais acreditamos que todos estejam relacionados com 
+as seguintes vantagens:
+
+- velocidade 
+- escalabilidade (tanto do software como das equipes)
+- abstração da infraestrutura 
+- eficiencia 
+
+VELOCIDADE:
+O Kubernetes pode oferecer as ferramentas necessárias para você se mover rapidamente, enquanto mantém a disponibilidade. Os principais conceitos que 
+permitem isso são:
+
+- imutabilidade
+- configuração declarativa
+- sistemas online de autocorreção 
+
+Essas ideias inter-relacionadas para melhor radicalmente a velocidade com a qual você poderá implantar softwares de forma confiavel.
+
+
+Importancia da imutabilidade:
+Os conteiners e o Kubernetes incentivam os desenvolvedores a construir sistemas distribuidos que obedeçam aos principios da infraestrutura imutavel. 
+Com uma infraestrutura imutavel, depois que um artefato é criado no sistema, ele não se modificará por meio de alterações do usuário.
+
+Diferença entre sistemas Mutaveis e Imutaveis:
+Sistemas mutaveis:
+Em um sistema mutavel, o estado atual da infraestrutura não é representado como um unico artefato , mais por um conjunto de atualizações incrementais
+mudanças no tempo. Em muitos sistemas, essas atualizações incrementais resultam não só de upgrades no sistema, mais também de modificações feitas pelo operador.
+
+Sistemas imutaveis:
+Em um sistema imutavel, em vez de uma série de atualizações incrementais e mudanças, uma imagem totalmente nova e completa é construida, e uma atualização
+siplesmente substitui a iamgem todo por uma imagem mais recente em uma unica operação.
+
+Para que fique concreto no mundo dos conteiners, considere duas formas de fazer um upgrade em seu software:
+
+- você pode fazer login em um conteiner, executar um comando para fazer o download de seu novo software, encerrar o servidor antigo e iniciar o novo.
+- você pode construir uma nova imagem de conteiner, envia-la para um registro de conteiners, encerrar o conteiner existente e iniciar outro. 
+
+Construir uma nova imagem de conteiner em vez de modificar uma imagem existente significa que a imagem antiga continuirá existindo e poderia ser usada rapidamente
+para rollback caso ocorra um erro.
+Imagens de conteiners imutavies estão no centro de tudo que vocẽ construirá no kubernetes. É possivel modificar conteiners em execução de modo imperativo, mas 
+esse é um antipadrão e deve ser usado somente em casos extremos, quando não houver outros opções(por exemplo, se for  a única meneira de reparar temporariamente 
+um sistema de produção cuja função é crítica). Mesmo assim, as mudanças devem ser registradas com uma atualização de configuração de clarativa em algum momento
+no futuro, depois que o incendio tiver sido apagado.
+
+Configuração declarativa:
+A imutabilidade se estende para além de conteiners executando em seu cluster e se aplica ao modo como você descreve sua aplicação para o kubernetes. Tudo no Kubernetes
+é um objeto de configuração declarativa: que representa o estado desejado do sistema. É tarefa do kubernetes garantir que o estado real do mundo seja igual
+ao estado desejado.
+A combinação entre o estado declarativo armazenado em um sistema de controle de versões e a capacidade do kubernetes de fazer com que a realidade coincida com esse
+estado declarado faz com que o rollback de uma mudança seja trivial. Basta restaurar o estado declarativo anterior do sistema.
+
+Sistemas autocorretivos:
+O kubernetes é um sistema online autocorretivo (self-healing). Quando recebe a configuração de um estado desejado, o kubernetes não executa apenas um conjunto de ações
+para que o estado atual coincida com o estado desejado, uma só vez. Ele executa ações continuamente para garantir que o estado atual coincida com o estado desejado.
+Isso significa que não só o kubernetes incializará o seu sistema, como também o protegerá contra qualquer falha ou pertubações que possam desestabilizar o sistema e 
+afetar a confiabilidade. 
+Sistemas autocorretivos como o kubernetes reduzem o fardo dos operadores e molhoram a confiabilidade geral do sistema fazendo correções confiaveis de modo mais rápido.
+Como um exemplo concreto desse comportamento autocorretivo, se você declarar para o kubernetes que o estado desejado tenha 3 réplicas ele não só criará as 3 réplicas 
+como também garantirará continuamente que haja exatamente 3 réplicas. Se você criar manualmente uma quarta réplica, o kubernetes destruirá uma para trazer o número de 
+volta para 3. Se remover uma réplica manualmente, o kubernetes criará outra para que você retorn de novo ao estado desejado.
+
+
+Escalando seu serviço e suas equipes:
+Á medida que seu produto evoluir, é inevitável que você tenha de escalar tanto o seu software como as equipes que o desenvolvem. Felizmente o Kubernetes pode ajudar 
+no que diz respeito a esses objetivos. O kubernetes é capaz de prover escalabilidade favorecendo as arquiteturas desacopladas.
+
+Desacoplamento:
+Desacoplar componentes por meio de balanceadores de carga, facilita escalar os programas que compõem seu serviço, pois é possivel aumentar o tamanho (e desse modo,
+a capacidade) do programa sm ajustar ou reconfigurar as demais camadas do seu serviço.
+Desacoplar servidores por meio de APIs facilita escalar as equipes de desenvolvimento porque cada equipe poderá manter o foco em um único microserviço menor,
+com uma área de superficie compreensivel.
+
+Como escalar equipes de desenvolvimento com microserviços:
+O kubernetes oferece deiversas abstrações e APIs que facilitam construir essas arquiteturas desacopladas de microserviços:
+
+- Os Pods, ou seja, grupos de conteiners, podem agrupar imagens de conteiners desenvolvidas por diferentes equipes, formando uma única unidade de implantação.
+
+- Os serviços (services) do Kubernetes oferecem balanceadores de carga, nomenclatura e descoberta para isolar microserviços do outro.
+
+- Os namespaces oferecem isolamento e controle de acesso, de modo que cada microserviço é capaz de controlar o grau com que outros serviços poderão interagir com ele.
+
+- Os objetos ingress oferecem um frontend fácil de ser usado, capaz de combinar diversos microserviços em uma unica área de superficie de API externalizada.
+
+Por fim, desacoplar a imagem do conteiner da aplicação e a máquina implica que deferentes microserviços podem ser colocados na mesma máquina sem interferência entre si,
+reduzindo o overhead e o custo das arquiteturas de microserviços.
+
+Separação de responsabilidades para consistẽncias e escalabilidade:
+Além de prover consistência as operações, o desacomplamento e a separação de responsabilidades que a pilha Kubernetes possibilita resultam em uma consistência muito 
+maior nos níveis mais baixos de sua infraestrutura. Isso permite a você escalar as operações de infraestrutura a fim de gerenciar várias máquinas com uma unica equipe
+pequena e especializada.
+É claro que dedicar uma equipe, mesmo que seja pequena, para gerenciar um SO está além da escala de muitas empresas. Nesses ambientes, um KaaS (kubernetes-as-a-Service,
+ou kubernetes como serviço) gerenciado, oferecido por um provedor de nuvem pública, seria uma ótima opção. 
+
+Abstraindo a infraestrutura:
+O objetivo da nuvem pública é ofoerecer uma infraestrutura fácil de usar, self-service, para os desenvolvedores consumirem. No entanto, ccom muita frequência, as APIs
+de núvem são orientadas a espelhar a infraestrutura esperada pela área de TI, e não os conceitos (por exemplo, "Máquinas virtuais" em vez de "aplicações") que os 
+desenvolvadores querem consumir.
+A mudança para APIs de conteiners orientadas a aplicações, como o Kubernetes, apresenta duas vantagens concretas.
+A primeira vantagem, conforme descrevemos antes, é a separação entre desenvolvedores e máquinas especificas. 
+
+O kubernetes tem vários plug-ins que possibilitama abstração de uma núvem em particular. Por exemplo, os serviços do kubernetes sabem como criar balanceadores de carga
+para todas as principais nuvens públicas, bem como em várias infraestruturas privadas e físicas distintas. Do mesmo modo, os 'PersistenVolume' e 'PersistenVolumeClaims' do 
+Kubernetes podem ser usados para abstrair suas aplicações em relação a impĺementações específicas de armazenagem.
+
+Eficiência:
+A eficiência pode ser avaliada pela razão entre o trabalho útil executado por uma máquina ou processo e o volume otoal de energia gasto fazendo esse trabalho. 
+
+
+
+Criando e executando conteiners:
+O kubernetes é uma plataforma para criação, implantação e gerenciamento de aplocações distribuidas. Essas aplicações se apresentam em vários formatos e tamanhos diferentes,
+mas, em última instância, todas são contruidas de um ou mais programas que executam em máquinas individuais. Esses programas aceitam dados de entrada, manipulam esses dados
+e então devolvem os resutados. Devemos inicialmente considerar como construir as imagens de conteiners das aplicações, que contêm esses programas e formam as partes de novo 
+sistema distribuidos.
+Programas de aplicações em geral são compostos de um runtime de linguagem, bibliotecas e o código-fonte que você escrever. 
+Quando trabalhos com aplicações em geral é conveniente empacotá-las de forma de que seja fácil compartilhá-las com outras pessoas. O Docker - a engine default de execução 
+de conteineres - facilita empacotá um executavel e enviá-lo a um registro remoto (remote registry), de onde poderá ser baixado por outras pessoas.
+
+Aplicação que será utilizada no resumo deste livro:
+https://github.com/kubernetes-up-and-running/kuard 
+
+A imagem de conteineres agrupam um programa e suas dependências em um único artefato em um sistemas de arquivos raiz. O formato mais conhecido da imagem de conteiners 
+é o formato de iamgem Docker(docker image), que foi padronizado pela Open Container Initiative como o formato de imagem OCI. O Kubernetes aceita imagens compatíveis tanto com 
+o Docker como com o OCI, utilizando o Docker e outros runtimes. As imagens Docker também incluem metadados adicionais usados por um runtime de conteiner para iniciar a instância
+de uma aplicação com baso no conteúdo da imagem do conteiner.
+
+
+Imagens de conteiner:
+Uma imagem de conteiner é um pacote binário que encapsula todos os arquivos necessários para executar um programa em um conteiner no SO.
+
+Formato de imagem Docker:
+O formato de iamgem de conteiner mais conhecido e utilizado é o formato Docker, desenvolvido pelo projeto de código aberto Docker para empacotamento, distribuição e execução de 
+conteineres usando o comando docker.
+O formato de imagem Docker continua sendo o padrão em uso do mercado, e esse padrão é composto de uma série de camadas de sistemas de arquivos. Cada camada adiciona, remove ou 
+modifica arquivos da camada anterior do sistema de arquivos. Esse é um exemplo de um sistema de arquivos overlay. O sistema overlay é usado tanto no momento do empacotamento como no 
+uso propriamente dito da imagem.
+As imagens de conteiner em geral são combinados com um arquivo de configuração de conteiner, que contém instruções como configurar o ambiente do conteiner e executar o ponto de entrada
+de uma aplicação. Com frequência, a configuração de conteiner inclui informações sobre a configuração da rede, isolamento de namespaces, limitações de recursos (cgroups) e as restrições de syscall
+que devem ser impostas a uma instância do conteiner em execução. O sistema de arquivos raiz do conteiner e o arquivo de configuração em geral são empacotados com o formato de imagem Docker.
+Os conteiners se enquadram em duas categorias principais:
+ - conteiners de sistem;
+ - conteiners de aplicação.
+
+Os conteiners de sistema procuram imitar as máquinas virtuias e, com frequência, executam um processo de boot completo.
+Os conteiners de aplicação diferem dos conteiners de sistema por executarem geralmente um único programa.
+
+Construindo imagens de aplicações com o Docker:
+Em geral, os sistemas de orquestração de conteiners como o Kubernetes tem como foco a construção e a implantação de sistemas distribuidos compostos de conteiners de aplicação.
+
+
+Dockerfiles:
+Um Dockerfile pode ser usado para automatizar a criação de imagem de um conteiner Docker.
+Para empacotar um código como uma imagem Docker, é necessário criar dois arquivos adicionais: .dockerignore e o Dockerfile. 
+O Dockerfile contém uma receita que descreve como construir a imagem do conteiner, enquanto .dockerignore define o conjunto de arquivos que deverá ser ignorado ao copiar arquivos para a imagem.
+
+
+Exemplo de um Dockerfile:
+
+#Começa com uma imagem do Node.Js 10 (LTS)
+FROM node:10
+
+#Especifica o diretorio da imagem no qual todos os comandos serão executados
+WORKDIR /usr/src/app
+
+#Copia os arquivos do pacote e  instala  as dependências
+COPY packege*.json ./
+RUM npm install
+
+#Copia todos os arquivos da aplicação para a imagem
+COPY . . 
+
+#O comando default a ser executado ao iniciar o conteiner 
+CMD ["npm", "start" ]
+
+
+Construção de imagens em várias etapas:
+
+Um dos modos mais comuns de construir imagens grandes acidentalmentes é fazer a compilação do programa como parte da construção da imagem do conteiner
+da aplicação. O Docker introduziu as multistage builds (construções em várias etapas). Com o multistage builds, em vez de gerar uma única imagem, um arquivos
+Docker pode gerar várias imagens. Cada imagem é considerada uma etapa. Os artefatos podem ser copiados de etapas anteriores para a etapa atual.
+
+
+Armazenando imagens em um registro remoto:
+Qual seria vantagem de uma imagem de conteiner se ela estivesse disponivel apenas em uma única máquina?
+O Kubernetes conta com um fato de que as imagens descritas em um manifesto de Pod estão disponíveis para todas as máquinas do cluster. Uma opção para colocar 
+essa imagem em todos as máquinas do cluster seria exportar a imagem e importá-la em cada uma delas. Não conseguimos imaginar nada mais teimoso do que administrar
+imagens Docker dessa maneira. O processo de importar e exportar imagens Docker manualmente apresenta 'erro humano' escrito em todos os lados. 
+O padrão na comunidade Docker é armazenar imagens Docker em um registro remoto. Falando de modo geral, a primeira escolha que você deve fazer em relação a um registro
+de conteiners é definir se usará um registro público ou privado.
+Independente da sua escolha, para enviar uma imagem ao registro, será necessária uma autenticação. Em geral, você pode fazer isso com o comando docker login, embora 
+haja algumas diferenças para determinados registros. 
+Dopois que fizer login, você pode atribuir uma tag a imagem usando o registro Docker como prefixo.
+
+
+Runtime de conteiners Docker:
+O Kubernetes disponibiliza uma API para descrever a implantação de uma aplicação, mas conta com um runtime de conteiner para configurar um container de aplicação
+usando APIs especificas de conteiner, nativas do sistema operacional visando. Em um sistema Linux, isso significa configurar cgroups e namespaces. A interface com essse 
+runtime de conteiner é definida pelo padrão CRI (Container Runtime Interface).
+
+Executando conteiners com o Docker:
+Ainda que, em geral, no Kubernetes, os containers sejam iniciados por um daemon chamado kubelet em cada nó, é mais fácil começar a trabalhar com conteineres usando
+a ferramenta de linha de comando do Docker.
+Exemplo de execução de conteiners:
+$ docker run -d --name kuard \
+  --publish 8080:8080 \
+  gcr.io/kuar-demo/kuard-amd64:blue 
+
+Esse comando inicia o conteiner kuard e mapeiaa porta 8080 de seu computador local para a porta 8080 no conteiner. A opção --publish pode ser abreviada pela opção -p. 
+A opção -d especifica que esse código deve executar em segundo plano (daemon), enquanto --name kuard atribui um nome mais converniente ao conteiner.
+
+
+Limitando recursos de memória:
+O Docker permite limitar a quantidade de recursos usados pelas aplicações, expondo a tecnologia cgroup subjacente oferecida pelo kernel do Linux. Esses recursos são 
+igualmente usados pelo Kubernetes a fim de limitar os recursos que cada Pod utiliza.
+
+LIMITANDO RECURSOS DE MEMÓRIA:
+Uma das principais vantagens de executar aplicações em um conteiner está na capacidade de retringir a utilização de recursos.
+Para limitar a aplicação a 200MB de memória e 1GB de espaço de swap, utiliza-se as falgs '--memory' e '--memory-swap' no comando 'docker run'.
+Exemplo:
+$ docker run -d --name kuard \
+  --publish 8080:8080 \
+  --memory 200m \
+  --memory-swap 1G \
+  gci.io/kuar-demo/kuard-amd64:blue 
+
+LIMITANDO RECURSOS DE CPU:
+Outro recurso crítico em uma máquina é a CPU. Restrinja o uso de CPU com a flag '--cpu-shares' no comando 'docker run'.
+Exemplo:
+$ docker run -d --name kuard \
+  --publish 8080:8080 \
+  --memory 200m \
+  --memory-swap 1G \
+  --cpu-shares 1024 \
+  gcr.io/kuar-demo/kuard-amd64:blue
+
+
+Limpeza:
+Depois que terminar de construir uma imagem, você poderá removê-la com a comando 'docker rmi'.
+Exemplo:
+$ docker rmi nameimagem 
+$ docker rmi nametag

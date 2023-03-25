@@ -1,0 +1,19 @@
+Comando básicos do docker:
+docker build -t name . -> comando usado para criar uma imagem conforme o Dockerfile montado.
+
+docker run --rm -p 3000:3000 name -> Comando usado para executar uma imagem docker criada.
+
+docker tag nameapp nameimage:tag -> fará o processo de tagear uma imagem docker para que ela possa ser enviada ao repositorio da nuvem 
+
+docker push nameimage:tag -> fará o processo de enviar a imagem da máquina para o repositorio da nuvem.
+
+docker stop nameconteiner -> realiza o processo de parar um conteiner 
+
+docker rm nameconteiner -> realiza o processo remover um conteiner
+
+docker rmi nameimage ou nametag -> faz o processo de remover uma imagem da máquina.
+
+docker images -> exibe todos as imagens criadas pelo docker build.
+
+docker system prune -> faz o processo de limpeza geral tanto das imagens quanto dos containers.
+
