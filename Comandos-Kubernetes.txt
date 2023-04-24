@@ -17,3 +17,30 @@ docker images -> exibe todos as imagens criadas pelo docker build.
 
 docker system prune -> faz o processo de limpeza geral tanto das imagens quanto dos containers.
 
+
+
+Comandos Kind :
+kind -> comando de visualização dos comandos do kind
+kind create cluster --name namecluster -> realiza o processo de criação do cluster 
+kind delete cluster --name namecluster -> realiza o processo de deleção de um cluster 
+
+
+Comandos Kubernetes:
+kubectl cluster-info --context kind-kuar-cluster -> exibe as informações do cluster como:
+                                                    control plane e etc.
+kubectl get componentstatuses -> valida o status do cluster kubernetes 
+kubectl get nodes -> lista todos os nos do cluster kubernetes
+kubectl describe nodes namenode -> lista mais informações sobre um node expecifico do cluster
+kubectl get daemonSets --namespace=kube-system kube-proxy -> verificar os proxys que estão em execução dentro do cluster kubernetes
+kubectl get deployments --namespace=kube-system coredns -> verificar as implementações de DNS (deployments) do Kubernetes
+kubectl get services --namespace=kube-system -> valida o serviço de balanceador de carga do cluster kubernetes
+kubectl get deployments --namespace=kube-system kubernetes-dashboard -> verificar o serviço de UI dentro do cluster Kubernetes
+kubectl get services --namespace=kube-system kubernetes-dashboard -> valida o serviço de balanceador de carga do dashboard UI.
+kubectl proxy -> usado para verificar as UI (vai gerar uma URL 127.0.0.1:8001)
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml -> comando usado para ativar a interface web do dashobard UI
+
+
+
+
+
+
